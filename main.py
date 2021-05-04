@@ -10,7 +10,7 @@ import csv
 
 if __name__ == '__main__':
     urld = 1
-    api_key = "MDYyMjhmZDliMWFjNGI0YmFlN2RiNjM0OWI4ZjAzYmU"
+    api_key = ""
     baseurl = '''https://kosis.kr/openapi/statisticsData.do?method=getList&apiKey='''+api_key+'''='''
     baseurl += "&format=json&jsonVD=Y&userStatsId=coper/101/DT_1B040M1/2/1/20210430134412_"
     apurl = "&prdSe=Y"+"&startPrdDe=2008&endPrdDe=2020"
