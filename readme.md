@@ -1,5 +1,5 @@
 Rscript version => R-4.0.2
-
+-----------------------
 
 
 프로그램 실행 순서
@@ -23,11 +23,11 @@ Rscript version => R-4.0.2
   >
   >데이터로 그래프 그림, png파일로 저장
     
+----------------------
 
+ggsave("~.pdf")  #<- does not work. save to png files   pdf에서는 범례, 축 한글 표시가 안됨.
 
-*ggsave("~.pdf")  #<- does not work. save to png files   pdf에서는 범례, 축 한글 표시가 안됨.
+python subprocess로 Rscript를 실행하는데는 성공했으나 png파일 저장이 안됨. (???)
 
-*python subprocess로 Rscript를 실행하는데는 성공했으나 png파일 저장이 안됨. (???)
-
-*(python subprocess -> call rscript, save png file -> FAIL)
+(python subprocess -> call rscript, save png file -> FAIL)
       테스트 해봤더니 csv read,write OK
