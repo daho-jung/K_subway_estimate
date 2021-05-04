@@ -13,3 +13,4 @@ Rscript version => R-4.0.2
 
 ggsave("~.pdf")  #<- does not work. save to png files   pdf에서는 범례, 축 한글 표시가 안됨.
 python subprocess로 Rscript를 실행하는데는 성공했으나 png파일 저장이 안됨. (???)
+      테스트 해봤더니 csv read,write는 가능.
