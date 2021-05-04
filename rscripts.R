@@ -3,6 +3,7 @@ setwd("C:/pp")  #set work directory
 library(dplyr)
 library(ggplot2)
 library(scales)
+library(reshape)
 library(reshape2)
 library(ggsci)
 
@@ -27,7 +28,8 @@ data$우대권.손실금 <- as.numeric(data$우대권.손실금)/10000000000
 data <- cbind(data,우대인구비율,우대권사용자비율,적자비율)
 data_org <- data
 data<-data[0:12,]         #코로나로인한 2020년 데이터 제외  except 2020 data(Corona vir)
-#data
+
+#write.csv(data,file="datas.csv",row.names=TRUE)
 #매년 지하철 운영 적자, 지하철 이용객 수 등은 독립데이터라고 볼 수 있다
 #우대인구비율(고령인구)에 대한 우대권 사용자 비율 회귀분석
 out=lm(우대인구비율~우대권사용자비율,data)
@@ -78,25 +80,32 @@ data_pop$연도<- as.numeric(as.character(data_pop$연도))
 options(scipen = 0)
 summary(data_pop)
 
-#고령인구  그래프
+#고령인구  그래프, png 저장
 g<-ggplot(data_pop,aes(연도,총인구,fill=고령))+
   geom_bar(stat='identity',position='dodge')+
   ylab('인구(만 명)')
-ggsave("청년층과 고령인구.pdf")
+ggsave("청년층과 고령인구.png")
 plot(g)
 
-#고령인구 비율과 우대권 사용자 비율
-g<-ggplot(data,aes(x=연도,y=우대인구비율))+geom_line(color='red')+
-  geom_line(aes(x=연도,y=우대권사용자비율), color='blue')+
-  ylab('비율(%)')
-ggsave("고령인구비율과 우대권 사용자비율.pdf")
+#고령인구 비율과 우대권 사용자 비율, png 저장
+data
+asdf <- melt(data,id.vars=c("연도"),measure.vars=c("우대인구비율","우대권사용자비율"))
+g<-ggplot(asdf,aes(연도,value,color=variable))+geom_line()+ylab("비율(%)")
+# g<-ggplot(data,aes(x=연도,y=우대인구비율))+geom_line(color='red')+
+#   geom_line(aes(x=연도,y=우대권사용자비율), color='blue')+
+#   ylab('비율(%)')
+ggsave("고령인구비율과 우대권 사용자비율.png")
 plot(g)
 
-asdf <- melt(data,id.vars=c("연도","적자현황"))
-g<-ggplot(data,aes(x=연도,y=적자현황))+geom_line(colour="myline1")+
-  geom_line(aes(x=연도,y=우대권.손실금),colour="ml2")+
-  scale_colour_manual(name="lll",values=c(myline1='blue',ml2='red'))+
-  ylab('적자(단위 : 백 억)')
-#ggsave("적자 대비 우대권 손실금.pdf")
+#적자 대비 우대권 손실금, png 저장
+asdf <- melt(data,id.vars=c("연도"),measure.vars=c("적자현황","우대권.손실금"))
+g<-ggplot(asdf,aes(연도,value,color=variable))+
+  geom_line()+
+  ylab("단위: 백억 원")#+scale_color_discrete(name=" ",labels=c("적자","우대권손실금"))
+# g<-ggplot(data,aes(x=연도,y=적자현황))+geom_line(colour="myline1")+
+#   geom_line(aes(x=연도,y=우대권.손실금),colour="ml2")+
+#   scale_colour_manual(name="lll",values=c(myline1='blue',ml2='red'))+
+#   ylab('적자(단위 : 백 억)')
+ggsave("적자 대비 우대권 손실금.png")
 plot(g)
 
